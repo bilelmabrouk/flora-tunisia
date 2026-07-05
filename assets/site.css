@@ -29,6 +29,11 @@
 .ctext{font-size:14px;}
 .fert{margin-top:12px;background:#eaf3fb;border:1px solid #c3ddef;border-radius:8px;padding:10px 14px;font-size:14px;}
 .fert .fertlab{display:inline-block;background:#1f6aa5;color:#fff;font-weight:700;font-size:12px;padding:2px 8px;border-radius:4px;margin-inline-end:8px;}
+.uses{margin:16px 0;background:#fbf3e8;border:1px solid #e6d3b3;border-radius:8px;padding:14px 16px;font-size:14px;line-height:1.55;}
+.uses .useslab{display:inline-block;background:#a9702a;color:#fff;font-weight:700;font-size:12px;padding:2px 8px;border-radius:4px;margin-inline-end:8px;vertical-align:middle;}
+.uses .usestext{display:inline;}
+.uses .usesrow{margin-top:8px;font-size:13px;color:#4a3a24;line-height:1.5;}
+.uses .usesrow:first-of-type{margin-top:10px;}
 .glink{color:#1f6aa5;font-weight:700;text-decoration:none;white-space:nowrap;}
 .regions{margin-top:12px;}.rglab{font-weight:700;color:var(--green);font-size:14px;margin-bottom:6px;}
 .rgwrap{display:flex;flex-wrap:wrap;gap:6px;}
