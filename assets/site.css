@@ -189,6 +189,27 @@ body.landing{margin:0;min-height:100vh;display:flex;align-items:center;justify-c
 .imgbtn:hover,.imgbtn:focus{background:#245a41;transform:scale(1.07);animation:none;outline:none;}
 @keyframes camPulse{0%{box-shadow:0 0 0 0 rgba(46,107,79,.5);}70%{box-shadow:0 0 0 13px rgba(46,107,79,0);}100%{box-shadow:0 0 0 0 rgba(46,107,79,0);}}
 @media (prefers-reduced-motion:reduce){.imgbtn{animation:none;}}
+/* multi-select filter dropdowns */
+.filterbar .fddrow{display:flex;flex-wrap:wrap;gap:8px;}
+.fdd{position:relative;}
+.fddbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid #cfe0c8;background:#f2f7f0;color:#33402d;border-radius:20px;padding:7px 14px;font-size:14px;cursor:pointer;}
+.fddbtn:hover{background:#e4efe0;}
+.fddbtn.active{background:var(--green);color:#fff;border-color:var(--green);}
+.fddbtn .caret{font-size:11px;opacity:.8;}
+.fddpanel{position:absolute;top:calc(100% + 6px);inset-inline-start:0;background:#fff;border:1px solid #cfd9cc;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:74;padding:8px;min-width:220px;max-height:360px;overflow:auto;}
+.fopt{display:flex;align-items:center;gap:8px;padding:6px 8px;font-size:14px;border-radius:8px;cursor:pointer;}
+.fopt:hover{background:#eef5f0;}
+.fopt input{width:16px;height:16px;accent-color:var(--green);flex:0 0 auto;}
+.fopt.parent{font-weight:700;color:var(--green);margin-top:4px;}
+.fopt.child{padding-inline-start:28px;color:#33402d;}
+/* Guides hover dropdown in the nav */
+.navdd{position:relative;display:inline-block;}
+.navddtop{cursor:pointer;}
+.navlinks .navddtop .caret{font-size:11px;}
+.navmenu{display:none;position:absolute;inset-inline-start:0;top:calc(100% + 6px);background:#fff;border:1px solid #cfd9cc;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);min-width:210px;z-index:76;overflow:hidden;padding:4px 0;}
+.navdd:hover .navmenu,.navdd.open .navmenu{display:block;}
+.navmenu a{display:block;padding:9px 15px;color:#23311f;text-decoration:none;font-size:14px;background:none;border-radius:0;}
+.navmenu a:hover{background:#eef5f0;color:var(--green);}
 
 
 /* Arabic larger */
