@@ -22,14 +22,25 @@ function genusSpecies(sci) {
   return norm(sci).split(/\s+/).slice(0, 2).join(" ");
 }
 
-async function findInGuide(origin, sci) {
+function pieces(s) {
+  return norm(s).split(/[\/(),;]| - /).map(x => x.trim()).filter(Boolean);
+}
+// Match a Pl@ntNet result against the whole guide, generically:
+//  - any candidate scientific name (all returned results) vs each plant's sci AND its names_alt synonyms
+//  - any candidate common name vs each plant's EN/FR/Derja names (and alt), compared as whole pieces
+// so you are only alerted for plants genuinely absent from the guide.
+async function findInGuide(origin, scis, commons) {
   try {
     const r = await fetch(`${origin}/search-index.json`);
     const list = await r.json();
-    const target = genusSpecies(sci);
+    const candSci = new Set((scis || []).map(genusSpecies).filter(Boolean));
+    const candCommon = new Set();
+    (commons || []).forEach(c => pieces(c).forEach(x => candCommon.add(x)));
     for (const p of list) {
-      if (genusSpecies(p.sci) === target) return { name: p.en, sci: p.sci, slug: p.s };
-      if (Array.isArray(p.alt)) { for (const a of p.alt) { if (genusSpecies(a) === target) return { name: p.en, sci: p.sci, slug: p.s }; } }
+      if (candSci.has(genusSpecies(p.sci))) return { name: p.en, sci: p.sci, slug: p.s };
+      if (Array.isArray(p.alt) && p.alt.some(a => candSci.has(genusSpecies(a)))) return { name: p.en, sci: p.sci, slug: p.s };
+      const names = [p.en, p.fr, p.ar].concat(Array.isArray(p.alt) ? p.alt : []);
+      for (const nm of names) { for (const pc of pieces(nm)) { if (candCommon.has(pc)) return { name: p.en, sci: p.sci, slug: p.s }; } }
     }
   } catch (e) { /* ignore */ }
   return null;
@@ -74,7 +85,7 @@ export default async (req) => {
   if (!file || typeof file === "string") return json({ error: "no image" }, 400);
 
   // 1) identify with Pl@ntNet
-  let sci = null, common = null, score = 0;
+  let sci = null, common = null, score = 0; const scis = [], commons = [];
   try {
     const pn = new FormData();
     pn.append("images", file, "photo.jpg");
@@ -82,6 +93,11 @@ export default async (req) => {
     const r = await fetch(`${PLANTNET}?api-key=${encodeURIComponent(key)}&lang=${encodeURIComponent(lang)}&nb-results=5`, { method: "POST", body: pn });
     const d = await r.json();
     if (d && Array.isArray(d.results) && d.results.length) {
+      for (const rr of d.results) {
+        const sp = rr.species || {};
+        if (sp.scientificNameWithoutAuthor) scis.push(sp.scientificNameWithoutAuthor);
+        (sp.commonNames || []).forEach(c => commons.push(c));
+      }
       const top = d.results[0];
       sci = top.species && top.species.scientificNameWithoutAuthor;
       common = top.species && top.species.commonNames && top.species.commonNames[0];
@@ -93,7 +109,7 @@ export default async (req) => {
   const origin = process.env.URL || new URL(req.url).origin;
 
   // 2) match against the guide
-  const match = await findInGuide(origin, sci);
+  const match = await findInGuide(origin, scis.length ? scis : [sci], commons);
   if (match) return json({ match });
 
   // 3) not in the guide -> email the maintainer (photo attached, not stored)
