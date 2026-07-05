@@ -210,6 +210,13 @@ body.landing{margin:0;min-height:100vh;display:flex;align-items:center;justify-c
 .navdd:hover .navmenu,.navdd.open .navmenu{display:block;}
 .navmenu a{display:block;padding:9px 15px;color:#23311f;text-decoration:none;font-size:14px;background:none;border-radius:0;}
 .navmenu a:hover{background:#eef5f0;color:var(--green);}
+/* readable image-search result (was white-on-white in the hero) */
+.imgresult{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;color:#23311f;box-shadow:0 2px 10px rgba(0,0,0,.12);margin-top:12px;text-align:center;}
+.imgresult .idmatch{background:none;border:0;padding:0;box-shadow:none;color:#23311f;}
+.imgresult .idmatch p{margin:0 0 10px;color:#23311f;}
+.imgresult .idmatch b{color:var(--green);}
+.imgresult .idmatch i{color:#6c7d64;}
+.imgresult .btn.primary{color:#fff;}
 
 
 /* Arabic larger */
