@@ -1,11 +1,14 @@
 // Photo -> plant identification -> match against the guide -> notify maintainer of misses.
-// Env vars (set in Netlify > Site settings > Environment variables):
-//   PLANTNET_API_KEY  (required)  get a free key at https://my.plantnet.org
+// No external dependencies: uses only Node built-ins (fetch, FormData, Buffer) available on
+// Netlify Functions. The uploaded photo is NEVER stored server-side; for a miss it is emailed
+// to the maintainer and then discarded when the request ends.
+//
+// Env vars (Netlify > Site settings > Environment variables):
+//   PLANTNET_API_KEY  (required)  free key at https://my.plantnet.org
 //   RESEND_API_KEY    (optional, for the "missing plant" email) https://resend.com
 //   NOTIFY_EMAIL      (optional, default mabroukbilel@gmail.com)
 //   NOTIFY_FROM       (optional, default onboarding@resend.dev)
-// URL is provided automatically by Netlify (your deployed site origin).
-import { getStore } from "@netlify/blobs";
+// URL is provided automatically by Netlify.
 
 const PLANTNET = "https://my-api.plantnet.org/v2/identify/all";
 
@@ -25,9 +28,7 @@ async function findInGuide(origin, sci) {
     const list = await r.json();
     const target = genusSpecies(sci);
     for (const p of list) {
-      if (genusSpecies(p.sci) === target) {
-        return { name: p.en, sci: p.sci, slug: p.s };
-      }
+      if (genusSpecies(p.sci) === target) return { name: p.en, sci: p.sci, slug: p.s };
     }
   } catch (e) { /* ignore */ }
   return null;
@@ -50,7 +51,7 @@ async function notify(sci, common, score, file) {
       <li><b>Confidence:</b> ${(score * 100).toFixed(0)}%</li>
       <li><b>When:</b> ${new Date().toISOString()}</li>
     </ul>
-    <p>Consider adding it: create a new build/plants/pNNN.json, run fetch_photos, and rebuild.</p>`;
+    <p>To add it: create build/plants/pNNN.json, run fetch_photos, rebuild.</p>`;
   try {
     await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -90,19 +91,11 @@ export default async (req) => {
 
   const origin = process.env.URL || new URL(req.url).origin;
 
-  // 2) store the upload (auto-purged after ~1 month by purge-uploads.mjs)
-  try {
-    const store = getStore("uploads");
-    const buf = new Uint8Array(await file.arrayBuffer());
-    await store.set(`${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`, buf,
-      { metadata: { date: new Date().toISOString(), sci, score } });
-  } catch (e) { /* blobs optional */ }
-
-  // 3) match against the guide
+  // 2) match against the guide
   const match = await findInGuide(origin, sci);
   if (match) return json({ match });
 
-  // 4) not in the guide -> email the maintainer
+  // 3) not in the guide -> email the maintainer (photo attached, not stored)
   await notify(sci, common, score, file);
   return json({ online: { name: common || sci, sci } });
 };
