@@ -29,6 +29,7 @@ async function findInGuide(origin, sci) {
     const target = genusSpecies(sci);
     for (const p of list) {
       if (genusSpecies(p.sci) === target) return { name: p.en, sci: p.sci, slug: p.s };
+      if (Array.isArray(p.alt)) { for (const a of p.alt) { if (genusSpecies(a) === target) return { name: p.en, sci: p.sci, slug: p.s }; } }
     }
   } catch (e) { /* ignore */ }
   return null;
