@@ -181,6 +181,14 @@ body.landing{margin:0;min-height:100vh;display:flex;align-items:center;justify-c
 .langmenu a{display:flex;align-items:center;gap:8px;padding:9px 14px;color:#23311f;text-decoration:none;font-size:14px;background:none;}
 .langmenu a:hover{background:#eef5f0;}
 .langmenu .flagimg{width:22px;height:15px;border-radius:2px;object-fit:cover;}
+/* highlight + pulse the image-search (camera) button */
+.imgbtn{background:var(--green);width:42px;height:42px;position:relative;box-shadow:0 2px 8px rgba(46,107,79,.35);animation:camPulse 2.2s ease-out infinite;transition:transform .12s,background .12s;}
+.bigsearch.big .imgbtn{width:46px;height:46px;}
+.imgbtn svg{width:23px;height:23px;}
+.imgbtn svg *{stroke:#fff;}
+.imgbtn:hover,.imgbtn:focus{background:#245a41;transform:scale(1.07);animation:none;outline:none;}
+@keyframes camPulse{0%{box-shadow:0 0 0 0 rgba(46,107,79,.5);}70%{box-shadow:0 0 0 13px rgba(46,107,79,0);}100%{box-shadow:0 0 0 0 rgba(46,107,79,0);}}
+@media (prefers-reduced-motion:reduce){.imgbtn{animation:none;}}
 
 
 /* Arabic larger */
