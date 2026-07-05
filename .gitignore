@@ -1,0 +1,13 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
+
+# Node deps for the Netlify functions (Netlify installs these itself)
+netlify/functions/node_modules/
+node_modules/
+
+# Superseded single-page builds (the new site lives in en/ fr/ ar/) — omit to shrink the upload
+/en.html
+/fr.html
+/ar.html

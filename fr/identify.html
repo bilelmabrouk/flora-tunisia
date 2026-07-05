@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="fr" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Téléchargez ou prenez une photo d&#x27;une plante. Nous la comparons au guide ; si elle n&#x27;y figure pas encore, nous la recherchons et la signalons."><title>Identifier une photo — Flore de Tunisie</title><link rel="stylesheet" href="../assets/site.css"><script>window.FLORA_ROOT="../";window.FLORA_LANG="fr";</script><script defer src="../assets/search.js"></script><link rel="preload" href="../search-index.json" as="fetch" crossorigin></head><body class="guide"><header class="topnav"><div class="navwrap">
+  <a class="brand" href="../fr/index.html">Flore de Tunisie</a>
+  <form class="searchbox" role="search" onsubmit="return false;">
+    <input id="q" type="search" autocomplete="off" placeholder="Chercher une plante… (français, anglais, derja ou latin)" aria-label="search">
+    <div id="ac" class="ac" hidden></div>
+  </form>
+  <nav class="navlinks">
+    <a href="../fr/index.html">Toutes les plantes</a>
+    <a href="../fr/guide/about.html">Guides</a>
+    <a href="../fr/identify.html">Identifier une photo</a>
+    <span class="langsep"></span><a class="langswitch" href="../en/identify.html">English</a><a class="langswitch cur" href="../fr/identify.html">Français</a><a class="langswitch" href="../ar/identify.html">تونسي</a>
+  </nav></div></header><main class="page-main"><section class="idpage"><h1>Identifier une plante à partir d&#x27;une photo</h1><p class="lead">Téléchargez ou prenez une photo d&#x27;une plante. Nous la comparons au guide ; si elle n&#x27;y figure pas encore, nous la recherchons et la signalons.</p>
+  <div class="iddrop"><input id="idfile" type="file" accept="image/*" capture="environment" hidden>
+    <button id="idpick" class="btn">Choisir ou prendre une photo</button>
+    <img id="idprev" class="idprev" hidden alt="">
+    <button id="idgo" class="btn primary" hidden>Identifier</button></div>
+  <div id="idstatus" class="idstatus" hidden></div>
+  <div id="idresult" class="idresult" hidden></div></section>
+  <script>window.ID_TXT={"busy": "Identification…", "inbook": "Cette plante est dans le guide :", "online": "Meilleure correspondance en ligne (pas encore dans le guide) :", "open": "Ouvrir sa page", "notified": "Merci — le responsable a été prévenu pour l'ajouter.", "fail": "Désolé, l'identification a échoué. Essayez une photo plus nette d'une seule feuille ou fleur."};</script></main><footer class="sitefooter"><div class="foot-name">Bilel Mabrouk &amp; Claude</div>
+      <div class="foot-tag">Réalisé avec soin pour les jardins tunisiens.</div></footer><button class="backtop" title="Top">&#8593;</button><div class="lightbox" id="lightbox" hidden><img alt=""><button class="lb-close" aria-label="Close">&times;</button></div><script defer src="../assets/site.js"></script><script defer src="../assets/identify.js"></script></body></html>

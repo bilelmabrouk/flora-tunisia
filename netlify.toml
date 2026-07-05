@@ -1,0 +1,15 @@
+# Netlify configuration for "Flora of Tunisia"
+# Deploy the web/ folder as the site (drag-and-drop the folder onto Netlify,
+# or `netlify deploy --prod` from inside web/). Functions deploy automatically.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Nice URLs: /en/plants/fig -> /en/plants/fig.html (optional; Netlify also serves .html directly)
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
